@@ -16,8 +16,8 @@ import java.io.PrintWriter;
 @WebServlet("/find-user-by-id")
 public class FindUserByIdServlet  extends HttpServlet {
 
-    //@EJB
-    //private final static UsersRepositoryDao daoBean;
+    @EJB
+    private UsersRepositoryDao daoBean;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +28,7 @@ public class FindUserByIdServlet  extends HttpServlet {
             return;
         }
 
-        UsersRepositoryDao daoBean = new UsersRepositoryDaoBean();
+        // UsersRepositoryDao daoBean = new UsersRepositoryDaoBean();  <- to  zastapione przez @EJB
         User user = daoBean.getUserById(Integer.valueOf(req.getParameter("id")));
 
         if (user == null) {
