@@ -35,6 +35,18 @@ public class User {
         return login;
     }
 
+    public User(int id, String name, String surname, String login, int age) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.login = login;
+        this.age = age;
+    }
+
+    public User() {
+
+    }
+
     public void setLogin(String login) {
         this.login = login;
     }
