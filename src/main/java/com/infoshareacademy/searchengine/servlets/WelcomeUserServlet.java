@@ -1,5 +1,6 @@
 package com.infoshareacademy.searchengine.servlets;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +20,18 @@ public class WelcomeUserServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
-            PrintWriter writer = resp.getWriter();
-            writer.println("<!DOCTYPE html><html><body> czesc: "+req.getParameter("name")+"</body></html>");
 
+        req.setAttribute("name", req.getParameter("name"));
+        req.getSession().setAttribute("sessionName", req.getParameter("name"));
+
+        req.setAttribute("salary", req.getParameter("salary"));
+        req.getSession().setAttribute("sessionSalary", req.getParameter("salary"));
+
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/welcome-user.jsp");
+        requestDispatcher.forward(req, resp);
+
+         /*   PrintWriter writer = resp.getWriter();
+            writer.println("<!DOCTYPE html><html><body> czesc: "+req.getParameter("name")+"</body></html>");
+          */
     }
 }

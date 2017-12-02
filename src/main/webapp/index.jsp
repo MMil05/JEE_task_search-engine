@@ -1,5 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <body>
-<h2>Hello World!</h2>
+  <%@ include file="welcome-user.jsp" %>
+  <%@ include file="menu.jsp" %>
 </body>
 </html>

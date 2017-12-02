@@ -1,6 +1,7 @@
 package com.infoshareacademy.searchengine.servlets;
 
 import com.infoshareacademy.searchengine.dao.UsersRepositoryDao;
+import com.infoshareacademy.searchengine.domain.Gender;
 import com.infoshareacademy.searchengine.domain.User;
 
 import javax.ejb.EJB;
@@ -21,6 +22,24 @@ public class AddUserServlet extends HttpServlet {
     private String name;
     private String surname;
     private String login;
+
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!areParamsValid(req)) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        int id = Integer.parseInt(req.getParameter("id"));
+        if (userAlreadyExists(id)) {
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
+            return;
+        }
+
+        addUserFromRequest(req, id);
+        printAddedUser(resp, id);
+    }
 
 
     @Override
@@ -64,7 +83,7 @@ public class AddUserServlet extends HttpServlet {
         String surname = req.getParameter("surname");
         String login = req.getParameter("login");
 
-        daoBean.addUser(new User(id, name, surname, login, age));
+        daoBean.addUser(new User(id, name, surname, login, age, Gender.MAN));
     }
 
     private void printAddedUser(HttpServletResponse resp, int userId) throws IOException {

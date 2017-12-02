@@ -1,11 +1,24 @@
 package com.infoshareacademy.searchengine.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     private int id;
     private String name;
     private String surname;
     private String login;
     private int age;
+    private Gender gender;
+    private List<Group> groups;
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
 
     public Gender getGender() {
         return gender;
@@ -15,7 +28,6 @@ public class User {
         this.gender = gender;
     }
 
-    private Gender gender;
 
     public int getId() {
         return id;
@@ -45,12 +57,14 @@ public class User {
         return login;
     }
 
-    public User(int id, String name, String surname, String login, int age) {
+    public User(int id, String name, String surname, String login, int age, Gender gender) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.login = login;
         this.age = age;
+        this.gender = gender;
+
     }
 
     public User() {

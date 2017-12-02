@@ -23,6 +23,11 @@
       <artifactId>javaee-api</artifactId>
       <version>8.0</version>
     </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>${project.artifactId}</finalName>
@@ -44,6 +49,19 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ejb-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <ejbVersion>3.2</ejbVersion>
+          <generateClient>true</generateClient>
+          <clientIncludes>
+            <clientInclude>com/infoshareacademy/searchengine/dao/UsersRepositoryDaoRemote.class
+            </clientInclude>
+          </clientIncludes>
         </configuration>
       </plugin>
     </plugins>
