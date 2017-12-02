@@ -1,10 +1,13 @@
 package com.infoshareacademy.searchengine.servlets;
 
+import com.infoshareacademy.searchengine.cdibeans.MaxPulse;
 import com.infoshareacademy.searchengine.dao.UsersRepositoryDao;
 import com.infoshareacademy.searchengine.dao.UsersRepositoryDaoBean;
+import com.infoshareacademy.searchengine.domain.Gender;
 import com.infoshareacademy.searchengine.domain.User;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +21,9 @@ public class FindUserByIdServlet  extends HttpServlet {
 
     @EJB
     private UsersRepositoryDao daoBean;
+
+    @Inject
+    private MaxPulse maxPulse;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,9 +40,12 @@ public class FindUserByIdServlet  extends HttpServlet {
         if (user == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } else {
+            double pulse = user.getGender().equals(Gender.MAN) ?
+                    maxPulse.calculateMaxPulseMen(user.getAge()) :
+                    maxPulse.calculateMaxPulseWomen(user.getAge());
             PrintWriter writer = resp.getWriter();
             writer.println("<!DOCTYPE html><html><body> czesc: "
-                    +user.getName()
+                    +user.getName() + ", Twoj maksymalny puls to: " + pulse
                     +"</body></html>");
         }
 

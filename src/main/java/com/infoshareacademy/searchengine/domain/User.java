@@ -7,6 +7,16 @@ public class User {
     private String login;
     private int age;
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    private Gender gender;
+
     public int getId() {
         return id;
     }
