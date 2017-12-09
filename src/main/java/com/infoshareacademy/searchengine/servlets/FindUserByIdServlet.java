@@ -1,6 +1,7 @@
 package com.infoshareacademy.searchengine.servlets;
 
 import com.infoshareacademy.searchengine.cdibeans.MaxPulse;
+import com.infoshareacademy.searchengine.dao.SearchStatistics;
 import com.infoshareacademy.searchengine.dao.UsersRepositoryDao;
 import com.infoshareacademy.searchengine.dao.UsersRepositoryDaoBean;
 import com.infoshareacademy.searchengine.domain.Gender;
@@ -21,6 +22,8 @@ public class FindUserByIdServlet  extends HttpServlet {
 
     @EJB
     private UsersRepositoryDao daoBean;
+    @EJB
+    private SearchStatistics searchStatsBean;
 
     @Inject
     private MaxPulse maxPulse;
@@ -28,24 +31,28 @@ public class FindUserByIdServlet  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (req.getParameter("id") == null) {
+        Integer userId = Integer.valueOf(req.getParameter("id"));
+        if (userId == null) {
             // resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
 
         // UsersRepositoryDao daoBean = new UsersRepositoryDaoBean();  <- to  zastapione przez @EJB
-        User user = daoBean.getUserById(Integer.valueOf(req.getParameter("id")));
+        User user = daoBean.getUserById(userId);
 
         if (user == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } else {
+            searchStatsBean.incCounter(userId);
+            // print ile zapytan
             double pulse = user.getGender().equals(Gender.MAN) ?
                     maxPulse.calculateMaxPulseMen(user.getAge()) :
                     maxPulse.calculateMaxPulseWomen(user.getAge());
             PrintWriter writer = resp.getWriter();
             writer.println("<!DOCTYPE html><html><body> czesc: "
                     +user.getName() + ", Twoj maksymalny puls to: " + pulse
+                    + ", ilosc zapytan: " + searchStatsBean.getStatForUser(userId)
                     +"</body></html>");
         }
 
