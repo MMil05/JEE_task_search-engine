@@ -1,7 +1,8 @@
 package com.infoshareacademy.searchengine.dao;
 
 public interface SearchStatistics {
-    void incCounter(int userId);
-
+    void incStatCounter(int userId);
     int getStatForUser(int userId);
+
+    String printStatistics();
 }

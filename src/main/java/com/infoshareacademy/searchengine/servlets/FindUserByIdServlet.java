@@ -44,15 +44,16 @@ public class FindUserByIdServlet  extends HttpServlet {
         if (user == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } else {
-            searchStatsBean.incCounter(userId);
-            // print ile zapytan
+            searchStatsBean.incStatCounter(userId);
+
             double pulse = user.getGender().equals(Gender.MAN) ?
                     maxPulse.calculateMaxPulseMen(user.getAge()) :
                     maxPulse.calculateMaxPulseWomen(user.getAge());
+
             PrintWriter writer = resp.getWriter();
             writer.println("<!DOCTYPE html><html><body> czesc: "
                     +user.getName() + ", Twoj maksymalny puls to: " + pulse
-                    + ", ilosc zapytan: " + searchStatsBean.getStatForUser(userId)
+                    + ", liczba zapytan: " + searchStatsBean.getStatForUser(userId)
                     +"</body></html>");
         }
 
