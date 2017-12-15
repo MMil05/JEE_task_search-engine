@@ -19,6 +19,7 @@ public class PrintUsersStatsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html;charset=UTF-8");
         PrintWriter printWriter = resp.getWriter();
 
         StringBuilder stringBuilder = new StringBuilder("<!DOCTYPE html><html><body>");

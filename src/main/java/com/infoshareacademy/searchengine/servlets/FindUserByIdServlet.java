@@ -50,6 +50,7 @@ public class FindUserByIdServlet  extends HttpServlet {
                     maxPulse.calculateMaxPulseMen(user.getAge()) :
                     maxPulse.calculateMaxPulseWomen(user.getAge());
 
+            resp.setContentType("text/html;charset=UTF-8");
             PrintWriter writer = resp.getWriter();
             writer.println("<!DOCTYPE html><html><body> czesc: "
                     +user.getName() + ", Twoj maksymalny puls to: " + pulse
