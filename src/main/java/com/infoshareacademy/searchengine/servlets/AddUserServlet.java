@@ -83,13 +83,14 @@ public class AddUserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
         String login = req.getParameter("login");
-        Gender gender = null;
-        if (req.getParameter("gender") == "MAN") {
+        Gender gender;
+        if (req.getParameter("gender").equals("MAN")) {
             gender = Gender.MAN;
-        } else if (req.getParameter("gender") == "WOMAN") {
+        } else if (req.getParameter("gender").equals("WOMAN")) {
             gender = Gender.WOMAN;
-        } else
+        } else {
             gender = null;
+        }
 
         daoBean.addUser(new User(id, name, surname, login, age, gender));
     }
@@ -105,7 +106,7 @@ public class AddUserServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         writer.println("<!DOCTYPE html><html><body> Dodano uzytkownika: "
                 + user.getName() + " " + user.getSurname() + " o loginie: "
-                + user.getLogin()
+                + user.getLogin() + ", płeć: " + user.getGender()
                 + "</body></html>");
     }
 }
