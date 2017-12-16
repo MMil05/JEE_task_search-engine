@@ -84,11 +84,12 @@ public class AddUserServlet extends HttpServlet {
         String surname = req.getParameter("surname");
         String login = req.getParameter("login");
         Gender gender = null;
-        if (req.getParameter("gender") == "MAN")
+        if (req.getParameter("gender") == "MAN") {
             gender = Gender.MAN;
-        else if (req.getParameter("gender") == "WOMAN")
+        } else if (req.getParameter("gender") == "WOMAN") {
             gender = Gender.WOMAN;
-        else gender = null;
+        } else
+            gender = null;
 
         daoBean.addUser(new User(id, name, surname, login, age, gender));
     }

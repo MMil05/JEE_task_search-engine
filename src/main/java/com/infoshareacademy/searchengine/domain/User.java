@@ -64,7 +64,6 @@ public class User {
         this.login = login;
         this.age = age;
         this.gender = gender;
-
     }
 
     public User() {
