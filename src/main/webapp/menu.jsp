@@ -8,5 +8,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <ul>
     <li><a href="add-user.jsp">Dodaj użytkownika</a></li>
-    <li><a href>Lista użytkownikow</a></li>
+    <li><a href="PrintStats">Lista użytkownikow</a></li>
 </ul>
