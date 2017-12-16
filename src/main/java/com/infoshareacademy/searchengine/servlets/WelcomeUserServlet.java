@@ -24,7 +24,9 @@ public class WelcomeUserServlet extends HttpServlet {
         req.setAttribute("name", req.getParameter("name"));
         req.getSession().setAttribute("sessionName", req.getParameter("name"));
 
-        req.setAttribute("salary", req.getParameter("salary"));
+        /* ponizszy setAttribute jest juz niepotrzebny, bo w filtrze `SalaryIncrementFilter`
+         jest wykonywany servletRequest.setAttribute("salary", tmpSalary);
+        // req.setAttribute("salary", req.getParameter("salary"));  */
         req.getSession().setAttribute("sessionSalary", req.getParameter("salary"));
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/welcome-user.jsp");
