@@ -54,7 +54,7 @@ public class FindUserByIdServlet  extends HttpServlet {
             PrintWriter writer = resp.getWriter();
             writer.println("<!DOCTYPE html><html><body> czesc: "
                     +user.getName() + ", Twoj maksymalny puls to: " + pulse
-                    + ", liczba zapytan: " + searchStatsBean.getStatForUser(userId)
+                    + ", liczba zapytan: " + searchStatsBean.getStatForUser(user)
                     +"</body></html>");
         }
 
