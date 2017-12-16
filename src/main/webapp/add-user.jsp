@@ -16,7 +16,7 @@
         <input name="name" id="name">
     </div>
     <div>
-        <label>User's name</label>
+        <label>User's surname</label>
         <input name="surname">
     </div>
     <div>
@@ -26,6 +26,14 @@
     <div>
         <label>User's login</label>
         <input name="login">
+    </div>
+    <div>
+        <label>User's gender</label>
+        <select name="gender">
+            <option value="">&lt;select&gt;</option>
+            <option value="MAN">MAN</option>
+            <option value="WOMAN">WOMAN</option>
+        </select>
     </div>
     <div>
         <button type="submit">Send data (by POST)</button>

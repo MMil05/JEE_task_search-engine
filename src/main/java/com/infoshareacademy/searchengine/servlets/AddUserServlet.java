@@ -68,7 +68,8 @@ public class AddUserServlet extends HttpServlet {
                         (req.getParameter("name") == null) ||
                         (req.getParameter("surname") == null) ||
                         (req.getParameter("age") == null) ||
-                        (req.getParameter("login") == null)
+                        (req.getParameter("login") == null) ||
+                        (req.getParameter("gender") == null)
         );
     }
 
@@ -82,8 +83,14 @@ public class AddUserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
         String login = req.getParameter("login");
+        Gender gender = null;
+        if (req.getParameter("gender") == "MAN")
+            gender = Gender.MAN;
+        else if (req.getParameter("gender") == "WOMAN")
+            gender = Gender.WOMAN;
+        else gender = null;
 
-        daoBean.addUser(new User(id, name, surname, login, age, Gender.MAN));
+        daoBean.addUser(new User(id, name, surname, login, age, gender));
     }
 
     private void printAddedUser(HttpServletResponse resp, int userId) throws IOException {

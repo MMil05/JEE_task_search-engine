@@ -1,9 +1,12 @@
 package com.infoshareacademy.searchengine.dao;
 
 import com.infoshareacademy.searchengine.domain.User;
+import com.infoshareacademy.searchengine.interceptors.AddUserCheckGenderInterceptor;
+import com.infoshareacademy.searchengine.interceptors.AddUserLogInterceptor;
 import com.infoshareacademy.searchengine.repository.UsersRepository;
 
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
@@ -15,6 +18,8 @@ public class UsersRepositoryDaoBean implements UsersRepositoryDao, UsersReposito
     @PersistenceContext(unitName = "pUnit")
     private EntityManager entityManager;
 
+    @Override
+    @Interceptors({AddUserLogInterceptor.class, AddUserCheckGenderInterceptor.class})
     public void addUser(User user) {
         UsersRepository.getRepository().add(user);
     }
