@@ -22,15 +22,15 @@ public class PrintUsersStatsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // resp.setContentType("text/html;charset=UTF-8");
-
         HashMap<User, Integer> stats =  statsBean.getStatsRepo();
 
         req.setAttribute("statList", stats);
-
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/users-list.jsp");
         requestDispatcher.forward(req, resp);
-    /*    PrintWriter printWriter = resp.getWriter();
+    /*
+        resp.setContentType("text/html;charset=UTF-8");
+
+        PrintWriter printWriter = resp.getWriter();
 
         StringBuilder stringBuilder = new StringBuilder("<!DOCTYPE html><html><body>");
         stringBuilder.append("Statystyki:<br><br>")
