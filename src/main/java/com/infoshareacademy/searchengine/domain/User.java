@@ -1,24 +1,33 @@
 package com.infoshareacademy.searchengine.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, unique = true)
     private int id;
+    @Column
     private String name;
     private String surname;
     private String login;
     private int age;
     private Gender gender;
-    private List<Group> groups;
+    // private List<Group> groups;
+    @OneToMany
+    @JoinColumn(name = "person_id")
+    private List<Phone> phones = new ArrayList<>();
 
-    public List<Group> getGroups() {
+    /*public List<Group> getGroups() {
         return groups;
-    }
+    }*/
 
-    public void setGroups(List<Group> groups) {
+    /* public void setGroups(List<Group> groups) {
         this.groups = groups;
-    }
+    } */
 
     public Gender getGender() {
         return gender;
@@ -80,6 +89,14 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public List<Phone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
     }
 
     @Override
