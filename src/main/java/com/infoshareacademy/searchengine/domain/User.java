@@ -101,6 +101,6 @@ public class User {
 
     @Override
     public String toString() {
-        return name + " " + surname + " (" + login + ")";
+        return name + " " + surname + " (login: `" + login + "`, id: " + id + ")";
     }
 }

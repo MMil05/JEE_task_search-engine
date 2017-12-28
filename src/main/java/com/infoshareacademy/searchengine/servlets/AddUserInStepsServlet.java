@@ -51,29 +51,13 @@ public class AddUserInStepsServlet extends HttpServlet {
                 if (!areParamsValidStep3(req, resp))
                     return;
 
-                req.getSession().setAttribute("gender", req.getParameter("gender"));
-
-                User newUser = new User();
-                newUser.setId(Integer.parseInt((String) req.getSession().getAttribute("id")));
-                newUser.setLogin((String) req.getSession().getAttribute("login"));
-                newUser.setAge(Integer.parseInt((String) req.getSession().getAttribute("age")));
-
-                Gender gender;
-                if (req.getParameter("gender").equals("MAN")) {
-                    gender = Gender.MAN;
-                } else if (req.getParameter("gender").equals("WOMAN")) {
-                    gender = Gender.WOMAN;
+                if (req.getSession().getAttribute("edit_user_data") != null) {
+                    updateUser(req, resp);
+                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("/PrintStats");
+                    requestDispatcher.forward(req, resp);
                 } else {
-                    gender = null;
+                    addUser(req, resp);
                 }
-                newUser.setGender(gender);
-
-                newUser.setName((String) req.getSession().getAttribute("name"));
-                newUser.setSurname((String) req.getSession().getAttribute("surname"));
-
-                usersRepoDaoBean.addUser(newUser);
-                printAddedUser(resp, newUser.getId());
-
                 // req.getSession().invalidate();  //  this method invalidates the session and it removes all attributes from the session object
                 break;
             }
@@ -91,6 +75,9 @@ public class AddUserInStepsServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return valid;
         }
+
+        if (req.getSession().getAttribute("edit_user_data") != null)
+            return valid;
 
         int id = Integer.parseInt(req.getParameter("id"));
         valid = !userAlreadyExists(id);
@@ -125,9 +112,23 @@ public class AddUserInStepsServlet extends HttpServlet {
         return valid;
     }
 
+
     private boolean userAlreadyExists(int userId) {
         return (usersRepoDaoBean.getUserById(userId) != null);
     }
+
+
+    private void addUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        User newUser = new User();
+        newUser.setId(Integer.parseInt((String) req.getSession().getAttribute("id")));
+
+        setUserData(newUser, req);
+
+        usersRepoDaoBean.addUser(newUser);
+        printAddedUser(resp, newUser.getId());
+
+    }
+
 
     private void printAddedUser(HttpServletResponse resp, int userId) throws IOException {
         User user = usersRepoDaoBean.getUserById(userId);
@@ -139,8 +140,38 @@ public class AddUserInStepsServlet extends HttpServlet {
 
         PrintWriter writer = resp.getWriter();
         writer.println("<!DOCTYPE html><html><body> Dodano uzytkownika: "
-                + user.getName() + " " + user.getSurname() + " o loginie: "
-                + user.getLogin() + ", płeć: " + user.getGender()
+                + user.getName() + " " + user.getSurname() + " o loginie: `"
+                + user.getLogin() + "`, wiek: " + user.getAge()
                 + "</body></html>");
+    }
+
+    private void updateUser(HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().setAttribute("edit_user_data", null);
+
+        User user = (User) req.getSession().getAttribute("edited_user");
+        if (user == null) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        setUserData(user, req);
+        req.getSession().invalidate();
+    }
+
+    private void setUserData(User user, HttpServletRequest req) {
+        user.setLogin((String) req.getSession().getAttribute("login"));
+        user.setName((String) req.getSession().getAttribute("name"));
+        user.setSurname((String) req.getSession().getAttribute("surname"));
+        user.setAge(Integer.parseInt((String) req.getSession().getAttribute("age")));
+
+        Gender gender;
+        if (req.getParameter("gender").equals("MAN")) {
+            gender = Gender.MAN;
+        } else if (req.getParameter("gender").equals("WOMAN")) {
+            gender = Gender.WOMAN;
+        } else {
+            gender = null;
+        }
+        user.setGender(gender);
     }
 }
