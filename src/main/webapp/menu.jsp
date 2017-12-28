@@ -8,5 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <ul>
     <li><a href="add-user.jsp">Dodaj użytkownika</a></li>
+    <li><a href="add-user-step-1.jsp">Dodaj użytkownika (w krokach)</a></li>
+    <%--@WebServlet("PrintStats") w PrintUsersStatsServlet  --%>
     <li><a href="PrintStats">Lista użytkownikow</a></li>
 </ul>

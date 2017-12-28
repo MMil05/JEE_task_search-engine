@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/AddUserStepsServlet")
 public class AddUserInStepsServlet extends HttpServlet {
@@ -60,14 +61,28 @@ public class AddUserInStepsServlet extends HttpServlet {
 
                 newUser.setName((String) req.getSession().getAttribute("name"));
                 newUser.setSurname((String) req.getSession().getAttribute("surname"));
+
                 usersRepoDaoBean.addUser(newUser);
-                req.getSession().invalidate();  //  this method invalidates the session and it removes all attributes from the session object
+                printAddedUser(resp, newUser.getId());
+
+                // req.getSession().invalidate();  //  this method invalidates the session and it removes all attributes from the session object
                 break;
             }
+        }
+    }
 
+    private void printAddedUser(HttpServletResponse resp, int userId) throws IOException {
+        User user = usersRepoDaoBean.getUserById(userId);
 
+        if (user == null) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
         }
 
-
+        PrintWriter writer = resp.getWriter();
+        writer.println("<!DOCTYPE html><html><body> Dodano uzytkownika: "
+                + user.getName() + " " + user.getSurname() + " o loginie: "
+                + user.getLogin() + ", płeć: " + user.getGender()
+                + "</body></html>");
     }
 }
