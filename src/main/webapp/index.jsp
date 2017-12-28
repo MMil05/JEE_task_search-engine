@@ -6,7 +6,7 @@
   <%--<c:if>$okMsg !=null</c:if>--%>
   <%--<c:if>$errMsg !=null</c:if>--%>
 
-  <%@ include file="welcome-user.jsp" %>
+  <%--<%@ include file="welcome-user.jsp" %>--%>
   <%@ include file="menu.jsp" %>
 </body>
 </html>

@@ -26,6 +26,9 @@ public class AddUserInStepsServlet extends HttpServlet {
 
         switch (step) {
             case 1: {
+                if (!areParamsValidStep1(req, resp))
+                    return;
+
                 req.getSession().setAttribute("id", req.getParameter("id"));
                 req.getSession().setAttribute("login", req.getParameter("login"));
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/add-user-step-2.jsp");
@@ -34,16 +37,22 @@ public class AddUserInStepsServlet extends HttpServlet {
                 // break;
             }
             case 2: {
+                if (!areParamsValidStep2(req, resp))
+                    return;
+
                 req.getSession().setAttribute("name", req.getParameter("name"));
                 req.getSession().setAttribute("surname", req.getParameter("surname"));
                 req.getSession().setAttribute("age", req.getParameter("age"));
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/add-user-step-3.jsp");
                 requestDispatcher.forward(req, resp);
-                return;  // forward nie przerywa dzialania servleta
-                // break;
+                return;
             }
             case 3: {
+                if (!areParamsValidStep3(req, resp))
+                    return;
+
                 req.getSession().setAttribute("gender", req.getParameter("gender"));
+
                 User newUser = new User();
                 newUser.setId(Integer.parseInt((String) req.getSession().getAttribute("id")));
                 newUser.setLogin((String) req.getSession().getAttribute("login"));
@@ -69,6 +78,55 @@ public class AddUserInStepsServlet extends HttpServlet {
                 break;
             }
         }
+    }
+
+    private boolean areParamsValidStep1(HttpServletRequest req, HttpServletResponse resp) {
+        boolean valid = !((req.getParameter("id") == null)
+                || (req.getParameter("login") == null)
+                || req.getParameter("id").isEmpty()
+                || req.getParameter("login").isEmpty()
+        );
+
+        if (!valid) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return valid;
+        }
+
+        int id = Integer.parseInt(req.getParameter("id"));
+        valid = !userAlreadyExists(id);
+        if (!valid) {
+            resp.setStatus(HttpServletResponse.SC_CONFLICT);
+        }
+        return valid;
+    }
+
+    private boolean areParamsValidStep2(HttpServletRequest req, HttpServletResponse resp) {
+        boolean valid = !((req.getParameter("name") == null)
+                || req.getParameter("name").isEmpty()
+                || (req.getParameter("surname") == null)
+                || req.getParameter("surname").isEmpty()
+                || (req.getParameter("age") == null)
+                || req.getParameter("age").isEmpty()
+        );
+
+        if (!valid)
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+        return valid;
+    }
+
+    private boolean areParamsValidStep3(HttpServletRequest req, HttpServletResponse resp) {
+        boolean valid = req.getParameter("gender").equals("MAN")
+                || req.getParameter("gender").equals("WOMAN");
+
+        if (!valid)
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+        return valid;
+    }
+
+    private boolean userAlreadyExists(int userId) {
+        return (usersRepoDaoBean.getUserById(userId) != null);
     }
 
     private void printAddedUser(HttpServletResponse resp, int userId) throws IOException {
