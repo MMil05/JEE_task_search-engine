@@ -24,11 +24,6 @@ public class EditUserDataServlet extends HttpServlet {
         if (isParamValid(req, resp)) {
             User user = usersRepoDaoBean.getUserById(Integer.parseInt(req.getParameter("id")));
             req.getSession().setAttribute("edited_user", user);
-            req.getSession().setAttribute("id", user.getId());
-            req.getSession().setAttribute("login", user.getLogin());
-            req.getSession().setAttribute("name", user.getName());
-            req.getSession().setAttribute("surname", user.getSurname());
-            req.getSession().setAttribute("age", user.getAge());
             req.getSession().setAttribute("gender", user.getGender().equals(Gender.MAN) ? "MAN" : "WOMAN");
             req.getSession().setAttribute("edit_user_data", 1);
 

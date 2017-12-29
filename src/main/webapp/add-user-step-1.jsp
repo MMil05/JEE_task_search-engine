@@ -12,7 +12,7 @@
     <input type="hidden" name="step" value="1"/>
     <label>User's id</label><input name="id" type="text"
                                    <c:if test="${not empty sessionScope.edit_user_data}">readonly</c:if>
-                                   value="${sessionScope.id}"><br/><br/>
-    <label>User's login</label><input name="login" value="${sessionScope.login}" type="text"><br/><br/>
+                                   value="${sessionScope.edited_user.id}"><br/><br/>
+    <label>User's login</label><input name="login" value="${sessionScope.edited_user.login}" type="text"><br/><br/>
     <input type="submit" name="add-user" value="next">
 </form>
