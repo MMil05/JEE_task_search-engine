@@ -11,6 +11,8 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
+    private static final String LOGIN_SUCCESS_MSG = "Logowanie pomyślne!";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -24,7 +26,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (req.getHeader("Referer").contains("login.jsp")) {
-            req.setAttribute("loginOkMessage", "Logowanie pomyślne!");
+            req.setAttribute("loginOkMessage", LOGIN_SUCCESS_MSG);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/index.jsp");
             requestDispatcher.forward(req, resp);
             // resp.sendRedirect("/index.jsp");
