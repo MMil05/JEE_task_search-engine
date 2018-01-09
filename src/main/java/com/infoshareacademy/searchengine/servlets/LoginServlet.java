@@ -24,7 +24,10 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (req.getHeader("Referer").contains("login.jsp")) {
-            resp.sendRedirect("/index.jsp");
+            req.setAttribute("loginOkMessage", "Logowanie pomyślne!");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/index.jsp");
+            requestDispatcher.forward(req, resp);
+            // resp.sendRedirect("/index.jsp");
             return;
         }
 

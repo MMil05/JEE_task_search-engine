@@ -6,16 +6,16 @@
 </head>
 <body>
 
-<h1>Welcome in JEE search engine welcome page!</h1>
-
-<%@ include file="logged-tab.jsp" %>
+<h1>Welcome in JEE search engine!</h1>
 
 <c:if test="${loginErrorMessage != null}">
   <div style="color: red;">${loginErrorMessage}</div>
 </c:if>
-<c:if test="${okMessage != null}">
-  <div style="color: green;">${okMessage}</div>
+<c:if test="${loginOkMessage != null}">
+  <div style="color: green;">${loginOkMessage}</div>
 </c:if>
+
+<%@ include file="logged-tab.jsp" %>
 
   <%--<%@ include file="welcome-user.jsp" %>--%>
   <%@ include file="menu.jsp" %>
