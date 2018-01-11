@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "getAll", query = "from User"),
+        @NamedQuery(name = "getUserByLogin",
+                query = "from User where login = :login")
+})
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,9 +21,10 @@ public class User {
     private String surname;
     private String login;
     private int age;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     // private List<Group> groups;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     private List<Phone> phones = new ArrayList<>();
 

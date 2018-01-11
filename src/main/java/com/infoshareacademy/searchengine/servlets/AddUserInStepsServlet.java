@@ -29,7 +29,7 @@ public class AddUserInStepsServlet extends HttpServlet {
                 if (!areParamsValidStep1(req, resp))
                     return;
 
-                req.getSession().setAttribute("id", req.getParameter("id"));
+                //req.getSession().setAttribute("id", req.getParameter("id"));
                 req.getSession().setAttribute("login", req.getParameter("login"));
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/add-user-step-2.jsp");
                 requestDispatcher.forward(req, resp);
@@ -65,9 +65,9 @@ public class AddUserInStepsServlet extends HttpServlet {
     }
 
     private boolean areParamsValidStep1(HttpServletRequest req, HttpServletResponse resp) {
-        boolean valid = !((req.getParameter("id") == null)
-                || (req.getParameter("login") == null)
-                || req.getParameter("id").isEmpty()
+        boolean valid = !( // (req.getParameter("id") == null) ||
+                (req.getParameter("login") == null)
+                        // || req.getParameter("id").isEmpty()
                 || req.getParameter("login").isEmpty()
         );
 
@@ -79,11 +79,11 @@ public class AddUserInStepsServlet extends HttpServlet {
         if (req.getSession().getAttribute("edit_user_data") != null)
             return valid;
 
-        int id = Integer.parseInt(req.getParameter("id"));
+        /*int id = Integer.parseInt(req.getParameter("id"));
         valid = !userAlreadyExists(id);
         if (!valid) {
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
-        }
+        }  */
         return valid;
     }
 
@@ -120,7 +120,7 @@ public class AddUserInStepsServlet extends HttpServlet {
 
     private void addUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         User newUser = new User();
-        newUser.setId(Integer.parseInt((String) req.getSession().getAttribute("id")));
+        // newUser.setId(Integer.parseInt((String) req.getSession().getAttribute("id")));
 
         setUserData(newUser, req);
 

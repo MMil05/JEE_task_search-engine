@@ -3,21 +3,27 @@ package com.infoshareacademy.searchengine.repository;
 import com.infoshareacademy.searchengine.domain.User;
 
 
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import java.util.HashMap;
+import java.util.List;
 
-
+@Stateless
 public class StatsRepository {
-    private static HashMap<User, Integer> statsRepository = new HashMap<>();
 
-    public static HashMap<User, Integer> getStatsRepository() {
-        if (statsRepository.size() == 0)
-            initalizeFromUsersRepository();
+    @EJB
+    private UsersRepository usersRepository;
+
+    // private static HashMap<User, Integer> statsRepository = new HashMap<>();
+
+    public HashMap<User, Integer> getStatsRepository() {
+        HashMap<User, Integer> statsRepository = new HashMap<>();
+        List<User> usersRepo = usersRepository.getUsersList();
+
+        for (User user : usersRepo) {
+            statsRepository.put(user, 0);
+        }
         return statsRepository;
     }
 
-    private static void initalizeFromUsersRepository() {
-        for (User user : UsersRepository.getRepository()) {
-            statsRepository.put(user, 0);
-        }
-    }
 }
