@@ -14,8 +14,6 @@ public class StatsRepository {
     @EJB
     private UsersRepository usersRepository;
 
-    // private static HashMap<User, Integer> statsRepository = new HashMap<>();
-
     public HashMap<User, Integer> getStatsRepository() {
         HashMap<User, Integer> statsRepository = new HashMap<>();
         List<User> usersRepo = usersRepository.getUsersList();
