@@ -16,7 +16,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, unique = true)
     private int id;
-    @Column
+    @FirstLetterA
     private String name;
     private String surname;
     private String login;
@@ -27,14 +27,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     private List<Phone> phones = new ArrayList<>();
-
-    /*public List<Group> getGroups() {
-        return groups;
-    }*/
-
-    /* public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    } */
 
     public Gender getGender() {
         return gender;
