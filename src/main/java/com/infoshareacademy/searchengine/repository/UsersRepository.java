@@ -6,6 +6,7 @@ import com.infoshareacademy.searchengine.domain.User;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class UsersRepository {
     @PersistenceContext(unitName = "pUnit")
     private EntityManager entityManager;
 
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
     public boolean addUser(User user) {
         entityManager.persist(user);
         System.out.println("Dodany użytkownik: " + user.toString());

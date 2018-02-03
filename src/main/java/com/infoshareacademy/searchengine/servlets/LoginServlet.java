@@ -28,6 +28,11 @@ public class LoginServlet extends HttpServlet {
         if (req.getHeader("Referer").contains("login.jsp")) {
             req.setAttribute("loginOkMessage", LOGIN_SUCCESS_MSG);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/index.jsp");
+            /* zastąpienie sendRedirecta dispatcherem
+             (celem przekazania komunikatu o pomyślnym zalogowaniu)
+             wymaga dodania w web.xml:
+            <filter-mapping> ... <dispatcher>FORWARD</dispatcher>
+             */
             requestDispatcher.forward(req, resp);
             // resp.sendRedirect("/index.jsp");
             return;

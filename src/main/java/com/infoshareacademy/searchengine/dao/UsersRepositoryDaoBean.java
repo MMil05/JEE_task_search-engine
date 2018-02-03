@@ -6,6 +6,7 @@ import com.infoshareacademy.searchengine.interceptors.AddUserLogInterceptor;
 import com.infoshareacademy.searchengine.repository.UsersRepository;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
@@ -23,7 +24,12 @@ public class UsersRepositoryDaoBean implements UsersRepositoryDao, UsersReposito
     @Interceptors({AddUserLogInterceptor.class, AddUserCheckGenderInterceptor.class})
     public void addUser(User user) {
         // UsersRepository.getRepository().add(user);
-        usersRepository.addUser(user);
+        try {
+            usersRepository.addUser(user);
+        } catch (EJBTransactionRolledbackException e) {
+            // obsluga ewentuanego wyjatku wygenerowanego przez walidator @FirstLetterA
+            e.printStackTrace(); // logger.error (e.message)
+        }
     }
 
     public User getUserById(int id) {
